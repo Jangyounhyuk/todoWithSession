@@ -23,7 +23,7 @@ public class TodoController {
             @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
             @Validated @RequestBody TodoRequestDto requestDto
     ) {
-        return new ResponseEntity<>(todoService.get(memberId, requestDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(todoService.save(memberId, requestDto),HttpStatus.CREATED);
     }
 
     @GetMapping("/todos")

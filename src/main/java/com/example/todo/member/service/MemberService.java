@@ -90,7 +90,7 @@ public class MemberService {
     // email 로 member 찾기
     @Transactional
     public MemberResponseDto findMember(String email) {
-        Member member = memberRepository.findByEmail().orElseThrow(
+        Member member = memberRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalStateException("그런 멤버 업슴")
         );
         return MemberMapper.toDto(member);

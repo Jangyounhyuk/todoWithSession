@@ -4,6 +4,7 @@ import com.example.todo.member.common.mapper.MemberMapper;
 import com.example.todo.member.common.mapper.TodoMapper;
 import com.example.todo.member.dto.MemberResponseDto;
 import com.example.todo.member.entity.Member;
+import com.example.todo.member.repository.MemberRepository;
 import com.example.todo.member.service.MemberService;
 import com.example.todo.todo.dto.TodoRequestDto;
 import com.example.todo.todo.dto.TodoResponseDto;
@@ -19,16 +20,22 @@ import java.util.List;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    private final MemberService memberService;
+//    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public TodoResponseDto get(Long memberId, TodoRequestDto requestDto) {
+    public TodoResponseDto save(Long memberId, TodoRequestDto requestDto) {
 
         // 클래스 간 정보 전달해 줄 때 dto로 전달해줘야 하는데
         // dto 에는 password가 포함되어 있지 않아 MemberService에서
         // MemberRepository로부터 memberId를 매개변수로 받아 password를 가져오는 메서드를 작성하였는데
         // 이렇게 하면 문제가 있겠죠..? 근데 방법을 모르겠습니다 ㅠㅠ
-        Member member = getMember(memberId);
+//        Member member = getMember(memberId);
+        // 위 방법으로 했더니 Todo 엔티티가 Member 엔티티를 참조하고 있는데, Member가 영속성 컨텍스트에 저장되지 않은 상태라서 오류가 발생한다고 합니다..
+
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalStateException("그런 member 업슴")
+        );
 
         Todo todo = new Todo(
                 requestDto.getTitle(),
@@ -61,7 +68,11 @@ public class TodoService {
     @Transactional
     public TodoResponseDto update(Long memberId, Long todoId, TodoRequestDto requestDto) {
 
-        Member member = getMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalStateException("그런 member 업슴")
+        );
+
+//        Member member = getMember(memberId);
 
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new IllegalStateException("그런 todo 업슴")
@@ -79,7 +90,11 @@ public class TodoService {
     @Transactional
     public void delete(Long memberId, Long todoId) {
 
-        Member member = getMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalStateException("그런 member 업슴")
+        );
+
+//        Member member = getMember(memberId);
 
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new IllegalStateException("그런 todo 업슴")
@@ -93,13 +108,13 @@ public class TodoService {
     }
 
     // memberId 로 memeber 찾아오는 메서드
-    public Member getMember(Long memberId) {
-
-        MemberResponseDto memberResponseDto = memberService.find(memberId);
-        String password = memberService.findPassword(memberId);
-        Member member = MemberMapper.toEntity(memberResponseDto, password);
+//    public Member getMember(Long memberId) {
+//
+//        MemberResponseDto memberResponseDto = memberService.find(memberId);
+//        String password = memberService.findPassword(memberId);
+//        Member member = MemberMapper.toEntity(memberResponseDto, password);
 
         // 직관적으로 member를 반환한다는 것을 보여주기 위하여 따로 변수를 생성 후 반환
-        return member;
-    }
+//        return member;
+//    }
 }
