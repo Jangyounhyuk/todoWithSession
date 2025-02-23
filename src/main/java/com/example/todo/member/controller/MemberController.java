@@ -41,7 +41,7 @@ public class MemberController {
     @PutMapping("/members/password")
     public void update(
             @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
-            @RequestBody PasswordUpdateRequestDto requestDto
+            @Validated @RequestBody PasswordUpdateRequestDto requestDto
     ) {
         memberService.updatePassword(memberId, requestDto);
     }

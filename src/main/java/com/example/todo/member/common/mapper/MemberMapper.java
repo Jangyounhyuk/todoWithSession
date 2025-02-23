@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberMapper {
 
     public static Member toEntity(MemberResponseDto dto, String password) {
-
         return new Member(dto.getEmail(), password, dto.getName());
     }
 

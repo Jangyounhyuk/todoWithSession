@@ -99,6 +99,7 @@ public class TodoService {
         String password = memberService.findPassword(memberId);
         Member member = MemberMapper.toEntity(memberResponseDto, password);
 
+        // 직관적으로 member를 반환한다는 것을 보여주기 위하여 따로 변수를 생성 후 반환
         return member;
     }
 }

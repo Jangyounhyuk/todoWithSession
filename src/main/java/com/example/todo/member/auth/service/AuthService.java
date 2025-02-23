@@ -23,6 +23,9 @@ public class AuthService {
     @Transactional
     public AuthLoginResponsetDto login(AuthLoginRequestDto requestDto) {
 
-        return new AuthLoginResponsetDto(memberService.findMember(requestDto.getEmail()).getId());
+        return new AuthLoginResponsetDto(
+                memberService.findMember(requestDto.getEmail())
+                        .getId()
+        );
     }
 }
