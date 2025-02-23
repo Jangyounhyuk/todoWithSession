@@ -1,8 +1,6 @@
 package com.example.todo.todo.service;
 
-import com.example.todo.member.common.mapper.MemberMapper;
 import com.example.todo.member.common.mapper.TodoMapper;
-import com.example.todo.member.dto.MemberResponseDto;
 import com.example.todo.member.entity.Member;
 import com.example.todo.member.repository.MemberRepository;
 import com.example.todo.member.service.MemberService;
@@ -32,6 +30,7 @@ public class TodoService {
         // 이렇게 하면 문제가 있겠죠..? 근데 방법을 모르겠습니다 ㅠㅠ
 //        Member member = getMember(memberId);
         // 위 방법으로 했더니 Todo 엔티티가 Member 엔티티를 참조하고 있는데, Member가 영속성 컨텍스트에 저장되지 않은 상태라서 오류가 발생한다고 합니다..
+        //todo // 문제점을 알았는데 memberId = null 인 새로운 member 객체를 생성하기 때문에 참조할 수 없는 문제인 것 같습니다. 하지만 해결 방법은 찾지 못했습니다..
 
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalStateException("그런 member 업슴")
